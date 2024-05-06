@@ -12,6 +12,10 @@ from rest_framework import status
 from .serializers import TranslationSerializer
 from django.http import JsonResponse
 
+import logging
+
+logger = logging.getLogger("app.views")
+
 
 class RegisterView(APIView):
     """
