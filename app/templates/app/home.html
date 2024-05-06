@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Language Translator</title>
+    <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: white;
+    }
+
+    body {
+        padding-top: 20px; /* Optional: Add padding to the top if needed */
+    }
+
+    #translation-container {
+        max-width: 600px; /* Optional: Set a maximum width for the container */
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #f0f0f0; /* Optional: Set a background color for the container */
+        border-radius: 10px; /* Optional: Add border radius for a rounded appearance */
+        margin-top: 20px; /* Optional: Add margin from the top */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #translation-form {
+        width: 100%;
+    }
+
+    #translation-result {
+        margin-top: 20px; /* Optional: Add margin from the top for the translation result */
+    }
+
+         #logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: blue;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+</style>
+
+
+</head>
+<body>
+    <div id="translation-container">
+        <h1>Language Translator</h1>
+        <form id="translation-form">
+            <textarea name="text" rows="4" cols="50"></textarea>
+            <select name="target_language">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="or">Odia</option>
+            </select>
+            <button type="submit">Translate</button>
+        </form>
+        <div id="translation-result"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <a href="{% url 'logout' %}" class="btn btn-dark" id="logout-button"><button>Logout</button></a>
+    <script>
+        $(document).ready(function () {
+            $('#translation-form').submit(function (e) {
+                e.preventDefault();
+                const formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/translate/',
+                    data: formData,
+                    success: function (data) {
+                        $('#translation-result').text('Translation: ' + data.translation);
+                    },
+                    error: function () {
+                        $('#translation-result').text('Translation error.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
